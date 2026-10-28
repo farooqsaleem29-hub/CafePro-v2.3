@@ -415,7 +415,7 @@ async function doPrint(kind,id){try{const b=id=='pv'?pvB:D.bills.find(x=>x.id==i
  else printRc();
  if(kind=='kot'&&b.id!='pv')markSent(b)}catch(e){alert('Print nahi ho saka: '+(e.message||e))}}
 function printRc(){try{if(window.cafe&&window.cafe.print)return window.cafe.print();
- if(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform())return Capacitor.registerPlugin('Print').print().catch(e=>alert('Print nahi ho saka: '+(e.message||e)));
+ if(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform()){const P=(Capacitor.Plugins&&Capacitor.Plugins.Print)||(Capacitor.registerPlugin&&Capacitor.registerPlugin('Print'));if(!P)return alert('Print plugin load nahi hua');return P.print().catch(e=>alert('Print nahi ho saka: '+(e.message||e)))}
  if(window.top!==window)return alert('Is preview page mein print block hota hai. Windows ya Android app mein print chalega. Abhi Share se bill bhej sakte hain.');
  window.print()}catch(e){alert('Print nahi ho saka: '+e.message)}}
 function previewRc(){showRc(0,{no:1,id:'pv',paid:true,rec:500,chg:160,date:today(),time:'12:00',type:'Dine-in',table:'4',by:me?me.name:'',items:[{n:'Karak Chai (Half)',q:2,p:80,note:'kam cheeni'},{n:'Paratha',q:1,p:100}],sub:260,disc:0,total:260,pm:'Cash',cust:''})}
